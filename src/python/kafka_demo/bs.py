@@ -3,6 +3,11 @@ from kafka import KafkaConsumer
 from kafka_demo.msg import KafkaRawMessage
 import iris
 
+class KafkaRestBS(BusinessService):
+    def on_process_input(self, message_input):
+        self.log_info(f"Received message: {message_input}")
+        return self.send_request_sync('Python.KafkaDemoBP', message_input)
+
 class KafkaDemoBS(BusinessService):
     @staticmethod
     def get_adapter_type():

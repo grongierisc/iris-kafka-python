@@ -1,0 +1,18 @@
+POST http://localhost:53795/flask/kafka
+Content-Type: application/json
+Authorization: Basic SuperUser:SYS
+
+{
+    "name": "test",
+    "price": 12.1
+}
+
+###
+
+POST http://localhost:5000/kafka
+Content-Type: application/json
+
+{
+    "name": "test",
+    "price": 12.1
+}

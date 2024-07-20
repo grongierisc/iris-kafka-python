@@ -1,16 +1,17 @@
 from kafka_demo.bo import KafkaDemoBO, LocalStorageBO
 from kafka_demo.bp import KafkaDemoBP
-from kafka_demo.bs import KafkaDemoBS
+from kafka_demo.bs import KafkaDemoBS, KafkaRestBS
 
 CLASSES = {
     'Python.KafkaDemoBO': KafkaDemoBO,
     'Python.LocalStorageBO': LocalStorageBO,
     'Python.KafkaDemoBP': KafkaDemoBP,
-    'Python.KafkaDemoBS': KafkaDemoBS
+    'Python.KafkaDemoBS': KafkaDemoBS,
+    'Python.KafkaRestBS': KafkaRestBS
 }
 
 PRODUCTIONS = [
-    {
+{
     "Python.Production": {
         "@Name": "Python.Production",
         "@TestingEnabled": "true",
@@ -56,7 +57,7 @@ PRODUCTIONS = [
                 "@Category": "",
                 "@ClassName": "Python.KafkaDemoBS",
                 "@PoolSize": "1",
-                "@Enabled": "false",
+                "@Enabled": "true",
                 "@Foreground": "false",
                 "@Comment": "",
                 "@LogTraceEvents": "false",
@@ -98,7 +99,7 @@ PRODUCTIONS = [
                     {
                         "@Target": "Adapter",
                         "@Name": "GroupID",
-                        "#text": "demo"
+                        "#text": "demo-group"
                     },
                     {
                         "@Target": "Adapter",
@@ -111,6 +112,17 @@ PRODUCTIONS = [
                         "#text": "kafka_demo"
                     }
                 ]
+            },
+            {
+                "@Name": "Python.KafkaRestBS",
+                "@Category": "",
+                "@ClassName": "Python.KafkaRestBS",
+                "@PoolSize": "0",
+                "@Enabled": "true",
+                "@Foreground": "false",
+                "@Comment": "",
+                "@LogTraceEvents": "false",
+                "@Schedule": ""
             }
         ]
     }

@@ -3,3 +3,4 @@ crc32c
 iris-pex-embedded-python>=3.0.0
 pytest
 sqlalchemy-iris
+Flask
