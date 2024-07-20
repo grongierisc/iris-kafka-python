@@ -35,11 +35,11 @@
         "showSystem": false,
         "previewLimit": 50,
         "server": "localhost",
-        "port": 52795,
+        "port": 53795,
         "askForPassword": false,
         "driver": "InterSystems IRIS",
         "name": "IRISAPP",
-        "username": "_SYSTEM",
+        "username": "SuperUser",
         "password": "SYS"
       }
     ],
@@ -53,7 +53,7 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.analysis.extraPaths": [
-      "./src/python/reddit"
+      "./src/python/"
     ],
 
 }

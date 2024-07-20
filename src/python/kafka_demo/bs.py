@@ -1,6 +1,6 @@
 from iop import BusinessService
 from kafka import KafkaConsumer
-from kafka_demo.msg import KafkaMessage
+from kafka_demo.msg import KafkaRawMessage
 import iris
 
 class KafkaDemoBS(BusinessService):
@@ -14,10 +14,10 @@ class KafkaDemoBS(BusinessService):
             self.topic = 'kafka_demo'
         if not hasattr(self, 'kafka_broker'):
             # default Kafka broker
-            self.kafka_broker = 'localhost:9092'
+            self.kafka_broker = ['kafka:9092']
         if not hasattr(self, 'timeout'):
             # default timeout
-            self.timeout = '5'
+            self.timeout = '1'
         # initialize the Kafka consumer
         self.consumer = KafkaConsumer(
             self.topic,
@@ -35,14 +35,14 @@ class KafkaDemoBS(BusinessService):
         self.consumer.close()
 
     def on_process_input(self, message_input):
+        self.log_info(f"Consuming messages from Kafka topic: {self.topic}")
         # consume messages from the Kafka topic
         for msg in self.consumer:
+            # log the message
+            self.log_info(f"Received message: {msg.value.decode('utf-8')}")
             # store the offset
             self.offset[self.topic] = msg.offset
             # create a Kafka message
-            kafka_message = KafkaMessage(msg.value.decode())
+            kafka_message = KafkaRawMessage(msg.value)
             # send the Kafka message to the business process
-            self.send_request_async('target', kafka_message)
-            # break the loop
-            break
-        
+            self.send_request_async('Python.KafkaDemoBP', kafka_message)
