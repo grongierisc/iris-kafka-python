@@ -27,6 +27,8 @@ services:
       - 5001:5001
     volumes:
       - ./:/irisdev/app
+    depends_on:
+      - iris
 
   zookeeper:
     image: 'confluentinc/cp-zookeeper:latest'
