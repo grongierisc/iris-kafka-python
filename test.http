@@ -9,6 +9,16 @@ Authorization: Basic SuperUser:SYS
 
 ###
 
+POST http://localhost:5001/kafka
+Content-Type: application/json
+
+{
+    "name": "test",
+    "price": 12.1
+}
+
+###
+
 POST http://localhost:5000/kafka
 Content-Type: application/json
 

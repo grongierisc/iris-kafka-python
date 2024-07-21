@@ -6,7 +6,9 @@ import iris
 class KafkaRestBS(BusinessService):
     def on_process_input(self, message_input):
         self.log_info(f"Received message: {message_input}")
-        return self.send_request_sync('Python.KafkaDemoBP', message_input)
+        # create a Kafka message
+        kafka_message = KafkaRawMessage(message_input.encode('utf-8'))
+        return self.send_request_sync('Python.KafkaDemoBP', kafka_message)
 
 class KafkaDemoBS(BusinessService):
     @staticmethod

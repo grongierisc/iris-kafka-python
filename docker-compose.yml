@@ -18,6 +18,16 @@ services:
       - ./:/irisdev/app
       - ./init.db/:/docker-entrypoint-initdb.d/
 
+  wsgi:
+    build: 
+      context: .
+      dockerfile: Dockerfile.wsgi
+    restart: always
+    ports: 
+      - 5001:5001
+    volumes:
+      - ./:/irisdev/app
+
   zookeeper:
     image: 'confluentinc/cp-zookeeper:latest'
     hostname: 'zookeeper'
