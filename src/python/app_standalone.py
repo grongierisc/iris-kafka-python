@@ -4,8 +4,15 @@ import intersystems_iris
 
 import json
 
+import os
 # Create a connection to InterSystems IRIS
-conn = intersystems_iris.connect("localhost", 55223, "IRISAPP", "SuperUser", "SYS")
+conn = intersystems_iris.connect(
+    hostname=os.getenv('IRIS_HOST', 'iris'),
+    port=int(os.getenv('IRIS_PORT', 1972)),
+    namespace=os.getenv('IRIS_NAMESPACE', 'IRISAPP'),
+    username=os.getenv('IRIS_USERNAME', 'SuperUser'),
+    password=os.getenv('IRIS_PASSWORD', 'SYS')
+)
 
 app = Flask(__name__)
 
@@ -22,7 +29,7 @@ def kafka_demo():
 
         #### Equivalent to bs.on_process_input(message)
         bs.invoke("OnProcessInput",message)
-        
+
     except Exception as e:
         return jsonify({"message": str(e)}), 500
     return jsonify({"message": "Message sent to KafkaDemoBP"})
