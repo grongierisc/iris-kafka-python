@@ -28,7 +28,9 @@ def kafka_demo():
     try:
 
         #### Equivalent to bs.on_process_input(message)
-        bs.invoke("OnProcessInput",message)
+        status = bs.invoke("OnProcessInput",message)
+        if status != 1:
+            raise Exception("Error processing the message")
 
     except Exception as e:
         return jsonify({"message": str(e)}), 500
@@ -36,4 +38,4 @@ def kafka_demo():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5002)
