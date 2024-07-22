@@ -2,6 +2,8 @@ from kafka_demo.bo import KafkaDemoBO, LocalStorageBO
 from kafka_demo.bp import KafkaDemoBP
 from kafka_demo.bs import KafkaDemoBS, KafkaRestBS
 
+import os
+
 CLASSES = {
     'Python.KafkaDemoBO': KafkaDemoBO,
     'Python.LocalStorageBO': LocalStorageBO,
@@ -66,7 +68,7 @@ PRODUCTIONS = [
                     {
                         "@Target": "Adapter",
                         "@Name": "GroupID",
-                        "#text": "demo-group"
+                        "#text": os.environ.get('KAFKA_GROUP_ID', 'demo-group')
                     },
                     {
                         "@Target": "Adapter",
