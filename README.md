@@ -21,6 +21,45 @@ The architecture is composed of 3 parts :
 - Wsgi app
 - IRIS Storage
 
+All those parts are connected to the same Business Process `Python.KafkaDemoBP`. It's the central point of the demo.
+
+The Business Process `Python.KafkaDemoBP` is the orchestrator of the demo. It receives messages from different sources and sends them to the storage.
+
+The business logic is defined in the Business Process `Python.KafkaDemoBP`.
+
+```python
+from iop import BusinessProcess
+from kafka_demo.msg import KafkaRawMessage, ProductMessage, ProductSQLMessage, ProductIRISMessage, Product
+
+import random
+import json
+
+class KafkaDemoBP(BusinessProcess):
+
+    def on_kafka_raw_message(self, msg: KafkaRawMessage):
+        # deserialize the message to a Product
+        deserialized_msg = json.loads(msg.value.decode('utf-8'))
+        # parse the message to a Product
+        product = Product(**deserialized_msg)
+        # randomely choose the message type
+        message_type = random.choice([ProductMessage, ProductSQLMessage, ProductIRISMessage])
+        # send the message to the business operation
+        self.send_request_sync('Python.LocalStorageBO', message_type(**product.__dict__))
+
+    def on_iris_kafka_message(self, msg: 'iris.EnsLib.Kafka.Message'):
+        # transform the iris message to a KafkaRawMessage
+        kafka_message = KafkaRawMessage(msg.value.encode('utf-8'))
+        # pass it to the main business process
+        self.on_kafka_raw_message(kafka_message)
+```
+
+The business logic is simple :
+
+- Deserialize the message
+- Parse the message to a `Product` object
+- Randomly choose the message type
+- Send the message to the business operation `Python.LocalStorageBO`
+
 ### Kafka
 
 This demo uses a kafka broker to send and receive messages outside of IRIS.
